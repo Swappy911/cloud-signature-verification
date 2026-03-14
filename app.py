@@ -9,7 +9,7 @@ app = Flask(__name__)
 UPLOAD_FOLDER = "uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-# create uploads folder if not exists
+# create uploads folder if it does not exist
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
@@ -19,11 +19,13 @@ valid_count = 0
 invalid_count = 0
 
 
+# Home Page
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
+# Verify Signature
 @app.route("/verify", methods=["POST"])
 def verify():
     global user_count, valid_count, invalid_count
@@ -38,13 +40,15 @@ def verify():
     signature.save(sig_path)
 
     try:
+        # read document
         with open(doc_path, "rb") as f:
             data = f.read()
 
+        # read signature
         with open(sig_path, "rb") as f:
             sig = f.read()
 
-        # load server public key
+        # load public key
         with open("public_key.pem", "rb") as f:
             public_key = load_pem_public_key(f.read())
 
@@ -59,27 +63,42 @@ def verify():
         verification_success = True
 
     except Exception as e:
-        print("Verification error:", e)
+        print("Verification Error:", e)
         verification_success = False
 
+    # update counters
     user_count += 1
 
     if verification_success:
         valid_count += 1
-        return render_template("index.html", result="valid", users=user_count)
-
+        return render_template(
+            "index.html",
+            result="valid",
+            users=user_count
+        )
     else:
         invalid_count += 1
-        return render_template("index.html", result="invalid", users=user_count)
+        return render_template(
+            "index.html",
+            result="invalid",
+            users=user_count
+        )
 
 
+# Dashboard Page
 @app.route("/dashboard")
 def dashboard():
+
+    total_verifications = valid_count + invalid_count
+
     return render_template(
         "dashboard.html",
         users=user_count,
         valid=valid_count,
-        invalid=invalid_count
+        invalid=invalid_count,
+        total=total_verifications,
+        server_status="Running",
+        platform="Render (PaaS)"
     )
 
 
