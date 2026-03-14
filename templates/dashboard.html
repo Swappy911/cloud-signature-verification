@@ -9,8 +9,9 @@
 <style>
 
 body{
-background:#1e1e2f;
+background:#0f2027;
 color:white;
+font-family:Arial;
 }
 
 .card{
@@ -25,30 +26,37 @@ border-radius:12px;
 
 <div class="container mt-5">
 
-<h2 class="text-center mb-4">
-Cloud Verification Dashboard
+<h2 class="text-center mb-5">
+Cloud Monitoring Dashboard
 </h2>
 
 <div class="row text-center">
 
-<div class="col-md-4">
-<div class="card bg-primary text-white p-4">
+<div class="col-md-3">
+<div class="card bg-success p-4">
+<h4>Server Status</h4>
+<h3>🟢 {{ server_status }}</h3>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card bg-primary p-4">
+<h4>Active Users</h4>
 <h3>{{ users }}</h3>
-<p>Total Users</p>
 </div>
 </div>
 
-<div class="col-md-4">
-<div class="card bg-success text-white p-4">
-<h3>{{ valid }}</h3>
-<p>Valid Signatures</p>
+<div class="col-md-3">
+<div class="card bg-warning p-4">
+<h4>Total Verifications</h4>
+<h3>{{ total }}</h3>
 </div>
 </div>
 
-<div class="col-md-4">
-<div class="card bg-danger text-white p-4">
-<h3>{{ invalid }}</h3>
-<p>Invalid Signatures</p>
+<div class="col-md-3">
+<div class="card bg-info p-4">
+<h4>Cloud Platform</h4>
+<h5>{{ platform }}</h5>
 </div>
 </div>
 
@@ -56,17 +64,29 @@ Cloud Verification Dashboard
 
 <br><br>
 
-<div class="card p-4">
+<div class="row text-center">
 
-<h4>Cloud Information</h4>
+<div class="col-md-6">
+<div class="card bg-success p-4">
+<h4>Valid Signatures</h4>
+<h3>{{ valid }}</h3>
+</div>
+</div>
 
-<ul>
-<li>Cloud Model: Public Cloud</li>
-<li>Service Model: PaaS</li>
-<li>Platform: Render</li>
-</ul>
+<div class="col-md-6">
+<div class="card bg-danger p-4">
+<h4>Invalid Signatures</h4>
+<h3>{{ invalid }}</h3>
+</div>
+</div>
 
 </div>
+
+<br>
+
+<a href="/" class="btn btn-light">
+⬅ Back to Home
+</a>
 
 </div>
 
